@@ -1,0 +1,16 @@
+.btn {
+    margin-right: 5px;
+}
+
+.markAsDone {
+    text-decoration: line-through;
+    color: #777;
+}
+
+.hideButton{
+    display: none;
+}
+
+.todoForm {
+    margin-bottom: 70px;
+}
