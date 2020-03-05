@@ -1,44 +1,44 @@
-import React, { Component } from 'react'
-export default class TodoForm extends Component {
-    constructor(props){
-        super(props)
-        this.keyHandler = this.keyHandler.bind(this)
-    }
+import React from 'react'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import changeDescription from './todoAction'
 
-    keyHandler(e) {
+const TodoForm = props => {
+    const keyHandler = (e) => {
         if(e.key === 'Enter'){
-            console.log(this)
-            e.shiftKey ? this.props.handleSearch() : this.props.handleAdd()
+            e.shiftKey ? props.handleSearch() : props.handleAdd()
         } else if (e.key === 'Escape') {
-            this.props.handleClear()
+            props.handleClear()
         }
     }
 
-    render() {
-        return (
-            <div role="form" className="todoForm">
-                <div className="col-xs-12 col-sm-9 col-md-10">
-                    <input 
-                        id="description" 
-                        className="form-control"
-                        value={this.props.description} 
-                        onChange={this.props.handleChange} 
-                        onKeyUp={this.keyHandler}
-                        placeholder="Adicione uma tarefa"/>
-                </div>
-            
-                <div className="col-xs-12 col-sm-3 col-md-2">
-                    <button className="btn btn-primary" title="New" onClick={this.props.handleAdd}>
-                        <i className="fa fa-plus"></i>
-                    </button>
-                    <button className="btn btn-primary" title="Search" onClick={this.props.handleSearch}>
-                        <i className="fa fa-search"></i>
-                    </button>
-                    <button className="btn btn-default" title="Clear Search" onClick={this.props.handleClear}>
-                        <i className="fa fa-close"></i>
-                    </button>
-                </div>
+    return (
+        <div role="form" className="todoForm">
+            <div className="col-xs-12 col-sm-9 col-md-10">
+            <input
+                id="description" 
+                className="form-control"
+                onChange={props.changeDescription} 
+                onKeyUp={keyHandler}
+                placeholder="Adicione uma tarefa"
+                value={props.description} />
             </div>
-        )
-    }
+        
+            <div className="col-xs-12 col-sm-3 col-md-2">
+                <button className="btn btn-primary" title="New" onClick={props.handleAdd}>
+                    <i className="fa fa-plus"></i>
+                </button>
+                <button className="btn btn-primary" title="Search" onClick={props.handleSearch}>
+                    <i className="fa fa-search"></i>
+                </button>
+                <button className="btn btn-default" title="Clear Search" onClick={props.handleClear}>
+                    <i className="fa fa-close"></i>
+                </button>
+            </div>
+        </div>
+    )    
 }
+
+const mapStateToProps = (state) => ({description: state.todo.description})
+const mapDispatchToProps = dispatch => bindActionCreators({changeDescription}, dispatch)
+export default connect(mapStateToProps, mapDispatchToProps)(TodoForm)
